@@ -12,22 +12,22 @@ import random
 import socket
 import struct
 def getting_ip_address():
+    """This function returns random IP address"""
     return socket.inet_ntoa(struct.pack('>I', random.randint(1, 0xffffffff)))
 
-
 def getting_ip(ip):
+    """This function calls the api and return the response"""
     url = f"https://freegeoip.app/json/{ip}"       # getting records from getting ip address
-
     headers = {
         'accept': "application/json",
         'content-type': "application/json"
         }
-
     response = requests.request("GET", url, headers=headers)
     respond = response.text
     return respond
 
 def returning_info(api_response):
+    """Converting the response from the API and formatting them"""
     res = json.loads(api_response)
     ip = res['ip']
     country = res['country_name']
@@ -37,6 +37,7 @@ def returning_info(api_response):
     lat = res['latitude']
     lon = res['longitude']
     return ip, country, city, time_zone, lat, lon
+
 def main():
     ip_gen = getting_ip_address()
     api_response = getting_ip(ip_gen)
