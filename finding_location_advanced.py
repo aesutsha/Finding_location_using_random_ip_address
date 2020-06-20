@@ -15,6 +15,8 @@ import socket
 import struct
 from geopy.geocoders import Nominatim
 import os
+from global_land_mask import globe
+
 
 def getting_ip_address():
     """This function returns a list of random IP address"""
@@ -61,7 +63,9 @@ def get_information():
     new['time_zone'] = new['info'].apply(lambda row: row['time_zone'])
     new['latitude'] = new['info'].apply(lambda row: row['latitude'])
     new['longitude'] = new['info'].apply(lambda row: row['longitude'])
+    new['on_land'] = new.apply(lambda row: globe.is_land(row['latitude'],row['longitude']),axis=1)
     new = new[new['latitude']!=0]
+    new = new[new['on_land']==True]
     new['address'] = new.apply(lambda row: getting_city_nominatim(row),axis=1)
     return new
 
