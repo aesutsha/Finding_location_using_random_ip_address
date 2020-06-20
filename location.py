@@ -5,8 +5,15 @@ The api used in these script is open sourced collected from https://freegeoip.ap
 The above api can search 15000 ip addresses in an hour
 The ip addresses used in this script are made by using random number generator collected from 
 following: https://stackoverflow.com/questions/21014618/python-randomly-generated-ip-address-as-string
+
+The extended idea: 1) run 1000 location per time running the script
+                   2) automatically append to .csv file
+                   3) if the lat long is there but the city name is not there, use nominatim to get approximate city
+
 """
 import requests
+import pandas as pd
+import numpy as np
 import json
 import random
 import socket

@@ -14,7 +14,7 @@ import random
 import socket
 import struct
 from geopy.geocoders import Nominatim
-import os.path
+import os
 
 def getting_ip_address():
     """This function returns a list of random IP address"""
@@ -67,18 +67,17 @@ def get_information():
 
 def append_to_existing_df(new):
     """This function appends the new ip addresses to the dataframe"""
-    if os.path.isfile(r'G:\projects\finding location\location_of_ip_address.csv'):
-        new.to_csv('location_of_ip_address.csv', mode='a', header=False)
+    if os.path.isfile(f'{os.path.abspath("")}\location_of_ip_address.csv'):
+        new.to_csv('location_of_ip_address.csv', mode='a', header=False,index=False)
     else:
-        new.to_csv('location_of_ip_address.csv', mode='w', header=True, columns=['ip','info','time_zone','latitude','longitude','address'])
+        new.to_csv('location_of_ip_address.csv', mode='w', header=True, columns=['ip','info','time_zone','latitude','longitude','address'],index=False)
 
 def deleting_duplicate_entries():
     """This function makes sure there are no duplicate ip addresses saved in the csv file"""
     df = pd.read_csv('location_of_ip_address.csv')
     df.sort_values('ip',inplace=True)
     df.drop_duplicates(subset='ip',keep='first',inplace=True)
-    df.drop(['Unnamed: 0'],axis=1,inplace=True)
-    df.to_csv('location_of_ip_address.csv')
+    df.to_csv('location_of_ip_address.csv',index=False)
 
 def main():
     """main function"""
